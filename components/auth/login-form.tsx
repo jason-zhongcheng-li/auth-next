@@ -1,3 +1,4 @@
+import { CardContent } from "../ui/card";
 import { CardWrapper } from "./card-wrapper";
 
 export const LoginForm = () => {
