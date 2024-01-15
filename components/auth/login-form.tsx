@@ -18,8 +18,13 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
+import { useState, useTransition } from "react";
 
 export const LoginForm = () => {
+  const [successMsg, setSuccessMsg] = useState<string>();
+  const [errorMsg, setErrorMsg] = useState<string>();
+  const [isPending, startTransaction] = useTransition();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -29,7 +34,15 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    login(values);
+    startTransaction(async () => {
+      const response = await login(values);
+      console.log("response = ", response);
+      if (response.error) {
+        setErrorMsg(response.error);
+      } else {
+        setSuccessMsg(response.success);
+      }
+    });
   };
 
   return (
@@ -53,6 +66,7 @@ export const LoginForm = () => {
                       {...field}
                       placeholder="Your email"
                       type="email"
+                      disabled={isPending}
                     ></Input>
                   </FormControl>
                   <FormMessage />
@@ -70,6 +84,7 @@ export const LoginForm = () => {
                       {...field}
                       placeholder="********"
                       type="password"
+                      disabled={isPending}
                     ></Input>
                   </FormControl>
                   <FormMessage />
@@ -77,9 +92,9 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError />
-          <FormSuccess />
-          <Button type="submit" className="w-full" onSubmit={() => {}}>
+          <FormError message={errorMsg} />
+          <FormSuccess message={successMsg} />
+          <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>
         </form>
