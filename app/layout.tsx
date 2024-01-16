@@ -15,7 +15,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await db.users.findMany();
+  const user = await db.users.findFirst();
 
   console.log("user = ", user);
 
