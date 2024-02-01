@@ -1,4 +1,5 @@
-import { auth } from "./auth";
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
 
 /*
   The Middleware is used to protect any single routes of the application
@@ -7,10 +8,12 @@ import { auth } from "./auth";
 
 */
 
+export const { auth } = NextAuth(authConfig);
+
 export default auth((req) => {
   // req.auth
   const isLoggedIn = !!req.auth;
-  console.log("ROUTE: ", req.nextUrl.pathname, " is logged in? ", isLoggedIn);
+  console.log("ROUTE:", req.nextUrl.pathname, "is logged in?", isLoggedIn);
 });
 
 // Optionally, don't invoke Middleware on some paths
