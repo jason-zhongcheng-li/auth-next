@@ -30,6 +30,9 @@ export const {
    */
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      /**
+       * Doing email verification side check here.
+       */
       return true;
     },
     // @ts-ignore
@@ -50,6 +53,7 @@ export const {
        * All customized properties in this token can be used in middleware auth function
        * where we can verify user role against different routes. It's role based action control in middleware
        */
+      console.log({ token });
       if (token.sub) {
         const user = await getUserById(token.sub);
         token.role = user?.role;

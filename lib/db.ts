@@ -7,6 +7,5 @@ declare global {
 }
 
 if (process.env.NODE_ENV !== "production") {
-  console.log("Assign db to globalThis = ");
   globalThis.prisma = db;
 }

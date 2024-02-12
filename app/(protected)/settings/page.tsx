@@ -1,6 +1,5 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { publicRoutes } from "@/routes";
 
 const SettingsPage = async () => {
   const session = await auth();
@@ -11,7 +10,6 @@ const SettingsPage = async () => {
       <form
         action={async () => {
           "use server";
-          console.log("calling sign out");
           await signOut();
         }}
       >
