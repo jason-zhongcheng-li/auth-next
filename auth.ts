@@ -2,7 +2,7 @@ import NextAuth, { DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
-import { getUserById } from "./data/user";
+import { getUserByEmail, getUserById } from "./data/user";
 import { UserRole } from "@prisma/client";
 
 type ExtendedUser = DefaultSession["user"] & { role: UserRole };
@@ -30,9 +30,16 @@ export const {
    */
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
+      try {
+        if (user?.email) {
+          const existUser = await getUserByEmail(user.email);
+          console.log("find user =", existUser);
+        }
+      } catch (error) {}
       /**
        * Doing email verification side check here.
        */
+      // delete user.id;
       return true;
     },
     // @ts-ignore

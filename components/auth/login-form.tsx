@@ -36,11 +36,10 @@ export const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     startTransaction(async () => {
       const response = await login(values);
-      console.log("response = ", response);
-      if (response.error) {
+      if (response?.error) {
         setErrorMsg(response.error);
       } else {
-        setSuccessMsg(response.success);
+        setSuccessMsg(response?.success);
       }
     });
   };

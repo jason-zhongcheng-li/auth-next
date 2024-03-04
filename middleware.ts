@@ -19,10 +19,8 @@ export default auth((req) => {
   const { nextUrl } = req;
   // req.auth
   const isLoggedIn = !!req.auth;
-  console.log("ROUTE:", req.nextUrl.pathname, "is logged in?", isLoggedIn);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  console.log("isApiAuthRoutes =", isApiAuthRoute);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isDefaultRoute = DEFAULT_LOGIN_REDIRECT === nextUrl.pathname;
@@ -36,7 +34,6 @@ export default auth((req) => {
       // pass nextUrl as 2nd parameter to make an absolute url
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    console.log("is auth route but not logged in");
     return null;
   }
 
