@@ -26,7 +26,7 @@ export default auth((req) => {
   const isDefaultRoute = DEFAULT_LOGIN_REDIRECT === nextUrl.pathname;
 
   if (isApiAuthRoute) {
-    return null;
+    return;
   }
 
   if (isAuthRoute) {
@@ -34,7 +34,7 @@ export default auth((req) => {
       // pass nextUrl as 2nd parameter to make an absolute url
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    return null;
+    return;
   }
 
   if (!isLoggedIn && !isPublicRoute) {
@@ -42,7 +42,7 @@ export default auth((req) => {
   }
 
   // returning null means do nothing, make the request happen
-  return null;
+  return;
 });
 
 /**
