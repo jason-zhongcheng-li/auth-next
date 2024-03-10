@@ -26,13 +26,19 @@
   "include": [
     "next-env.d.ts",
     "jest.config.ts",
-    "auth.config.ts",
-    "auth.ts",
-    "middleware.ts",
-    "routes.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "coverage", "dist", "doc", "res"]
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "doc",
+    "res",
+    "auth.config.ts",
+    "auth.ts",
+    "middleware.ts",
+    "routes.ts"
+  ]
 }
