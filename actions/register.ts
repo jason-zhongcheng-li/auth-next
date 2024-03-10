@@ -8,7 +8,6 @@ import { RegisterSchema } from "../schemas/index";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validateFields = RegisterSchema.safeParse(values);
-  console.log("validateFields on server = ", validateFields);
 
   if (!validateFields.success) {
     return { error: "Invalidate fields!" };
@@ -19,7 +18,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   } = validateFields;
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("calling getUserByEmail ***************");
   const existingUser = await getUserByEmail(email);
 
   if (existingUser) {

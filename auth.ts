@@ -23,6 +23,14 @@ export const {
   ...authConfig,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   /**
    * These callbacks will be triggered in the middleware.
    * They can used to do validation no matter user login with API or server action.
@@ -33,13 +41,16 @@ export const {
       try {
         if (user?.email) {
           const existUser = await getUserByEmail(user.email);
-          console.log("find user =", existUser);
+          if (existUser) {
+            return true;
+          }
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
       /**
        * Doing email verification side check here.
        */
-      // delete user.id;
       return true;
     },
     // @ts-ignore
@@ -52,7 +63,6 @@ export const {
           session.user.role = token.role as UserRole;
         }
       }
-      console.log({ sessionToken: token, session });
       return session;
     },
     async jwt({ token, account, profile }) {
@@ -60,7 +70,6 @@ export const {
        * All customized properties in this token can be used in middleware auth function
        * where we can verify user role against different routes. It's role based action control in middleware
        */
-      console.log({ token });
       if (token.sub) {
         const user = await getUserById(token.sub);
         token.role = user?.role;

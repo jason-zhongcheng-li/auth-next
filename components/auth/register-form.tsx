@@ -38,8 +38,8 @@ export const RegisterForm = () => {
     startTransaction(async () => {
       setErrorMsg("");
       setSuccessMsg("");
+
       const response = await register(values);
-      console.log("response = ", response);
       if (response.error) {
         setErrorMsg(response.error);
       } else {
