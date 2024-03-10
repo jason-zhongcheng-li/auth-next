@@ -9,7 +9,8 @@
   },
   "eslintIgnore": [
     "jest.config.ts",
-    "jest.setup.ts"
+    "jest.setup.ts",
+    "middleware.ts"
   ],
   "private": true,
   "scripts": {
