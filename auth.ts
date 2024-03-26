@@ -23,6 +23,10 @@ export const {
   ...authConfig,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
+  /**
+   * Events are async functions that do not return a response,
+   * they are useful for audit logs/reporting or handling any other side-effects.
+   */
   events: {
     async linkAccount({ user }) {
       await db.user.update({
